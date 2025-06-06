@@ -132,6 +132,36 @@ services:
       - TLS_CLIENT_CERT=./client.p12 
 ```
 
+### Docker Label Enable
+When exposing docker containers, the containers which are provided to pangolin can be limited by 
+setting an environment variable `DOCKER_LABEL_ENABLE` to `true`. 
+
+Omission of this variable will send all containers to Pangolin.
+
+This feature is enabled on Newt like so:
+```yaml
+services:
+  newt:
+    image: fosrl/newt
+    container_name: newt
+    restart: unless-stopped
+    environment:
+      - PANGOLIN_ENDPOINT=https://example.com
+      - NEWT_ID=2ix2t8xk22ubpfy 
+      - NEWT_SECRET=nnisrfsdfc7prqsp9ewo1dvtvci50j5uiqotez00dgap0ii2 
+      - DOCKER_LABEL_ENABLE=true
+```
+
+Then any container that you want to be viewable in Newt is marked with a label:
+```yaml
+services:
+  nginx-example:
+    image: nginx:latest
+    container_name: nginx-example
+    labels:
+      - newt.docker.enable=true
+```
+
 ## Build
 
 ### Container 
