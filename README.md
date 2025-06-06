@@ -38,6 +38,7 @@ When Newt receives WireGuard control messages, it will use the information encod
 - `updown` (optional): A script to be called when targets are added or removed.
 - `tls-client-cert` (optional): Client certificate (p12 or pfx) for mTLS. See [mTLS](#mtls)
 - `docker-socket` (optional): Set the Docker socket to use the container discovery integration
+- `docker-label-enable` (optional): Enable functionality to opt-in containers by label that are sent to Pangolin
 
 - Example:
 

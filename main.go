@@ -386,7 +386,7 @@ func main() {
 		flag.StringVar(&dns, "dns", "8.8.8.8", "DNS server to use")
 	}
 	if logLevel == "" {
-		flag.StringVar(&logLevel, "log-level", "INFO", "Log level (DEBUG, INFO, WARN, ERROR, FATAL)")
+		flag.StringVar(&logLevel, "log-level", "DEBUG", "Log level (DEBUG, INFO, WARN, ERROR, FATAL)")
 	}
 	if updownScript == "" {
 		flag.StringVar(&updownScript, "updown", "", "Path to updown script to be called when targets are added or removed")
@@ -396,6 +396,9 @@ func main() {
 	}
 	if dockerSocket == "" {
 		flag.StringVar(&dockerSocket, "docker-socket", "", "Path to Docker socket (typically /var/run/docker.sock)")
+	}
+	if dockerLabelEnable == "" {
+		flag.StringVar(&dockerLabelEnable, "docker-label-enable", "", "Enable functionality to opt-in containers by label that are sent to Pangolin")
 	}
 
 	// do a --version check
