@@ -705,7 +705,7 @@ persistent_keepalive_interval=5`, fixKey(privateKey.String()), fixKey(wgData.Pub
 		}
 
 		// List Docker containers
-		containers, err := docker.ListContainers(dockerSocket)
+		containers, err := docker.ListContainers(dockerSocket, dockerLabelEnableBool)
 		if err != nil {
 			logger.Error("Failed to list Docker containers: %v", err)
 			return
