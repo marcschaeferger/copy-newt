@@ -341,18 +341,20 @@ func resolveDomain(domain string) (string, error) {
 }
 
 var (
-	endpoint      string
-	id            string
-	secret        string
-	mtu           string
-	mtuInt        int
-	dns           string
-	privateKey    wgtypes.Key
-	err           error
-	logLevel      string
-	updownScript  string
-	tlsPrivateKey string
-	dockerSocket  string
+	endpoint              string
+	id                    string
+	secret                string
+	mtu                   string
+	mtuInt                int
+	dns                   string
+	privateKey            wgtypes.Key
+	err                   error
+	logLevel              string
+	updownScript          string
+	tlsPrivateKey         string
+	dockerSocket          string
+	dockerLabelEnable     string
+	dockerLabelEnableBool bool
 )
 
 func main() {
@@ -366,6 +368,7 @@ func main() {
 	updownScript = os.Getenv("UPDOWN_SCRIPT")
 	tlsPrivateKey = os.Getenv("TLS_CLIENT_CERT")
 	dockerSocket = os.Getenv("DOCKER_SOCKET")
+	dockerLabelEnable = os.Getenv("DOCKER_LABEL_ENABLE")
 
 	if endpoint == "" {
 		flag.StringVar(&endpoint, "endpoint", "", "Endpoint of your pangolin server")
@@ -418,6 +421,14 @@ func main() {
 		logger.Fatal("Failed to parse MTU: %v", err)
 	}
 
+	// parse the docker label enable string to a bool
+	if dockerLabelEnable != "" {
+		dockerLabelEnableBool, err = strconv.ParseBool(dockerLabelEnable)
+		if err != nil {
+			logger.Fatal("Failed to parse DOCKER_LABEL_ENABLE: %v", err)
+		}
+	}
+
 	privateKey, err = wgtypes.GeneratePrivateKey()
 	if err != nil {
 		logger.Fatal("Failed to generate private key: %v", err)
@@ -435,6 +446,24 @@ func main() {
 	)
 	if err != nil {
 		logger.Fatal("Failed to create client: %v", err)
+	}
+
+	// output env var values if set
+	logger.Debug("Endpoint: %v", endpoint)
+	logger.Debug("Log Level: %v", logLevel)
+	logger.Debug("Docker Label Enable Set: %v", dockerLabelEnableBool)
+	logger.Debug("TLS Private Key Set: %v", tlsPrivateKey != "")
+	if dns != "" {
+		logger.Debug("Dns: %v", dns)
+	}
+	if dockerSocket != "" {
+		logger.Debug("Docker Socket: %v", dockerSocket)
+	}
+	if mtu != "" {
+		logger.Debug("MTU: %v", mtu)
+	}
+	if updownScript != "" {
+		logger.Debug("Up Down Script: %v", updownScript)
 	}
 
 	// Create TUN device and network stack
