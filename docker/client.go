@@ -106,7 +106,7 @@ func ListContainers(socketPath string, labelEnable bool) ([]Container, error) {
 		if labelEnable {
 			labelEnableValue, ok := c.Labels["newt.docker.enable"]
 			if !ok || !strings.Contains(strings.ToLower(labelEnableValue), "true") {
-				logger.Debug("Container %s is does not have required label to be used by pangolin", name)
+				logger.Debug("Container %s does not have required label to be used by pangolin", name)
 				continue
 			} else {
 				logger.Debug("Container %s has required label to be used by pangolin", name)
