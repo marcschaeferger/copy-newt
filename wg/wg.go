@@ -517,7 +517,6 @@ func (s *WireGuardService) addPeer(peer Peer) error {
 
 	var peerConfig wgtypes.PeerConfig
 	if peer.Endpoint != "" {
-		// Replaced brittle string manipulation with robust endpoint parsing.
 		// This logic correctly handles IPv4, IPv6, and hostnames.
 		formattedEndpoint := peer.Endpoint
 		host, _, err := net.SplitHostPort(formattedEndpoint)
@@ -715,7 +714,7 @@ func (s *WireGuardService) handleUpdatePeer(msg websocket.WSMessage) {
             peerConfig.Endpoint = endpoint
             logger.Info("Updating Endpoint for peer %s to %s", request.PublicKey, formattedEndpoint)
         } else {
-            // This is the fix. Set a valid "any" IP address instead of a nil one.
+            // Set a valid "any" IP address instead of a nil one.
             logger.Info("Removing Endpoint for peer %s", request.PublicKey)
             peerConfig.Endpoint = &net.UDPAddr{IP: net.IPv4zero, Port: 0}
         }
