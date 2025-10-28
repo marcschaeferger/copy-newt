@@ -1,0 +1,3 @@
+newt_connection_attempts_total
+newt_ws_reconnect_total
+newt_proxy_connection_events_total
